@@ -57,12 +57,16 @@ function game(){
     }
 }
 game();
+let y=document.querySelector("h2");
 if(computerScore>playerScore){
-    console.log("computer won with a score of "+computerScore," against you of score of "+playerScore);
+    y.innerText="computer won with a score of "+computerScore +" against you of score of "+playerScore;
+    console.log("computer won with a score of "+computerScore +" against you of score of "+playerScore);
 }
 else if(computerScore<playerScore){
-    console.log("You won with a score of "+playerScore," against computer of score of "+computerScore);
+    y.innerText="You won with a score of "+playerScore+" against computer of score of "+computerScore;
+    console.log("You won with a score of "+playerScore +" against computer of score of "+computerScore);
 }else{
+    y.innerText="Its a Draw with your score and computer score of "+computerScore;
      console.log("Its a Draw with your score and computer score of "+computerScore);
 
 }
