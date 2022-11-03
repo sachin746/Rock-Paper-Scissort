@@ -64,30 +64,30 @@ function playRound(playerChoice,computerChoice){
 const buttons=document.querySelectorAll('.two');
 const divthree=document.querySelector('.three');
 const divfour=document.querySelector('.four');
-
+function callBck(e){
+    totalRounds++;
+    if(totalRounds==1){
+        divfour.textContent="";
+        computerSpan.textContent=computerPoints;
+        playerSpan.textContent=playerPoints;
+    }
+    const playerChoice=e.target.getAttribute("data-key");
+    const computerChoice=getComputerChoice();
+    const winner=playRound(playerChoice,computerChoice);
+    divthree.textContent=winner;
+    if(totalRounds==5){
+        if(playerPoints==computerPoints){
+            divfour.textContent="Its a Draw! Lets Try Again\n";
+        }else if(playerPoints>computerPoints){
+            divfour.textContent="YAY YOU WON! THIS 5 ROUND GAME \n";
+        }else{
+            divfour.textContent="AHHHH! YOU LOST! THIS 5 ROUND GAME TRY AGAIN\n";
+        }
+        totalRounds=0;
+        computerPoints=0;
+        playerPoints=0;
+    }
+};
 buttons.forEach(button=>{
-    button.addEventListener('click',(e)=>{
-        totalRounds++;
-        if(totalRounds==1){
-            divfour.textContent="";
-            computerSpan.textContent=computerPoints;
-            playerSpan.textContent=playerPoints;
-        }
-        const playerChoice=e.target.textContent;
-        const computerChoice=getComputerChoice();
-        const winner=playRound(playerChoice,computerChoice);
-        divthree.textContent=winner;
-        if(totalRounds==5){
-            if(playerPoints==computerPoints){
-                divfour.textContent="Its a Draw! Lets Try Again\n";
-            }else if(playerPoints>computerPoints){
-                divfour.textContent="YAY YOU WON! THIS 5 ROUND GAME \n";
-            }else{
-                divfour.textContent="AHHHH! YOU LOST! THIS 5 ROUND GAME TRY AGAIN\n";
-            }
-            totalRounds=0;
-            computerPoints=0;
-            playerPoints=0;
-        }
-    })
+    button.addEventListener('click',callBck)
 })
