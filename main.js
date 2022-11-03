@@ -5,68 +5,89 @@ function getComputerChoice(){
 
 let arr=["Rock","Paper","Scissors"]
 
+let computerPoints=0,playerPoints=0,totalRounds=0;
+const playerSpan=document.querySelector('.pScore');
+const computerSpan=document.querySelector('.cScore');
+
 function playRound(playerChoice,computerChoice){
 
     playerChoice=playerChoice.toLowerCase();
     computerChoice=computerChoice.toLowerCase();
+    let ans="",whoincreased=0;
 
     if(playerChoice==computerChoice){
-        return "Its a Draw Play Again";
+        computerPoints++;
+        playerPoints++;
+        whoincreased+=2//both;
+        ans= "Its a Draw Play Again";
     }
 
-    if(playerChoice==="rock"){
+    else if(playerChoice==="rock"){
         if(computerChoice==="scissors"){
-            return "Yay You Won! Rock beats Scissors";
+            playerPoints++;
+            whoincreased=1;
+            ans= "Yay You Won! Rock beats Scissors";
         }else{
-            return "You Lose! Paper beats Rock";
+            computerPoints++;
+            ans= "You Lose! Paper beats Rock";
         }
     }else if( playerChoice==="paper"){
         if(computerChoice==="rock"){
-            return "Yay You Won! Paper beats Rock";
+            playerPoints++;
+            whoincreased=1;
+            ans= "Yay You Won! Paper beats Rock";
         }else{
-            return "You Lose! Scissors beats Paper";
+            computerPoints++;
+            ans= "You Lose! Scissors beats Paper";
         }
     }else{
         if(computerChoice==="paper"){
-            return "Yay You Won! Scissors beats Paper";
+            playerPoints++;
+            whoincreased=1;
+            ans= "Yay You Won! Scissors beats Paper";
         }else{
-            return "You Lose! Rock beats Scissors";
+            computerPoints++;
+            ans= "You Lose! Rock beats Scissors";
         }
     }
-}
-let computerScore=0,playerScore=0;
-function game(){
-
-    for(let i=0; i<5; i++){
-        let playerChoice=prompt("type your choice").toLowerCase();
-        while(playerChoice!="rock"&&playerChoice!="paper"&&playerChoice!="scissors"){
-            alert("choose between Rock Paper Scissors");
-            playerChoice=prompt("type your choice").toLowerCase();
-        }
-        computerChoice=getComputerChoice();
-        let x=playRound(playerChoice,computerChoice);
-        if(x.includes("Won"))playerScore++;
-        else if(x.includes("Draw")){
-            playerScore++;
-            computerScore++;
-        }else{
-            computerScore++;
-        }
-        console.log(x);
-        alert(x+ ' computerScore :'+computerScore+' playerScore :'+playerScore);
+    if(whoincreased==2){
+        computerSpan.textContent=computerPoints;
+        playerSpan.textContent=playerPoints;
+    }else if(whoincreased==1){
+        playerSpan.textContent=playerPoints;
+    }else{
+        computerSpan.textContent=computerPoints;
     }
+    return ans;
 }
-game();
-let y=document.querySelector("h2");
-if(computerScore>playerScore){
-    y.innerText="computer won with a score of "+computerScore +" against you of score of "+playerScore;
-    console.log("computer won with a score of "+computerScore +" against you of score of "+playerScore);
-}
-else if(computerScore<playerScore){
-    y.innerText="You won with a score of "+playerScore+" against computer of score of "+computerScore;
-    console.log("You won with a score of "+playerScore +" against computer of score of "+computerScore);
-}else{
-    y.innerText="Its a Draw with your score and computer score of "+computerScore;
-     console.log("Its a Draw with your score and computer score of "+computerScore);
 
-}
+const buttons=document.querySelectorAll('.two');
+const divthree=document.querySelector('.three');
+const divfour=document.querySelector('.four');
+
+buttons.forEach(button=>{
+    button.addEventListener('click',(e)=>{
+        totalRounds++;
+        if(totalRounds==1){
+            divfour.textContent="";
+            computerSpan.textContent=computerPoints;
+            playerSpan.textContent=playerPoints;
+        }
+        const playerChoice=e.target.textContent;
+        const computerChoice=getComputerChoice();
+        const winner=playRound(playerChoice,computerChoice);
+        divthree.textContent=winner;
+        if(totalRounds==5){
+            if(playerPoints==computerPoints){
+                divfour.textContent="Its a Draw! Lets Try Again\n";
+            }else if(playerPoints>computerPoints){
+                divfour.textContent="YAY YOU WON! THIS 5 ROUND GAME \n";
+            }else{
+                divfour.textContent="AHHHH! YOU LOST! THIS 5 ROUND GAME TRY AGAIN\n";
+            }
+            totalRounds=0;
+            computerPoints=0;
+            playerPoints=0;
+        }
+    })
+})
